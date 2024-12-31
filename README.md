@@ -38,3 +38,6 @@ After activation, you can test the installation by running:
 ```python
 python -c "import mujoco; print(mujoco.__version__)"
 ```
+
+## Results
+![Simulation](ur5e_control.png)
