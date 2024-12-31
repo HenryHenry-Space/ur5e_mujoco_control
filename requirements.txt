@@ -1,0 +1,6 @@
+mujoco
+numpy
+scipy
+matplotlib
+numpy-quaternion
+transforms3d

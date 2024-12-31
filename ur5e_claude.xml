@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<mujoco model="ur5e">
+    <compiler angle="radian" balanceinertia="true"/>
+    
+    <option gravity="0 0 -9.81" />
+    
+    <size nstack="3000" />
+    
+    <asset>
+        <material name="robot_material" rgba="0.7 0.7 0.7 1" />
+        <material name="ground_material" rgba="0.3 0.3 0.3 1" />
+    </asset>
+
+    <worldbody>
+        <!-- Ground plane -->
+        <geom name="ground" type="plane" size="2 2 0.1" pos="0 0 0" material="ground_material"/>
+        
+        <!-- UR5e Robot -->
+        <body name="base" pos="0 0 0">
+            <inertial pos="0 0 0" mass="4.0" diaginertia="0.0072 0.0072 0.0072" />
+            <geom name="base" type="cylinder" size="0.06 0.05" material="robot_material" />
+            
+            <body name="shoulder" pos="0 0 0.163">
+                <inertial pos="0 0 0" mass="3.7" diaginertia="0.0104 0.0104 0.0104" />
+                <joint name="shoulder_pan" type="hinge" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+                <geom name="shoulder" type="cylinder" size="0.06 0.05" material="robot_material" />
+                
+                <body name="upper_arm" pos="0 0.138 0" euler="1.57079632679 0 0">
+                    <inertial pos="0 0 0.2125" mass="8.393" diaginertia="0.1339 0.1339 0.1339" />
+                    <joint name="shoulder_lift" type="hinge" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+                    <geom name="upper_arm" type="capsule" size="0.06" fromto="0 0 0 0 0 0.425" material="robot_material" />
+                    
+                    <body name="forearm" pos="0 0 0.425">
+                        <inertial pos="0 0 0.196" mass="2.275" diaginertia="0.0312 0.0312 0.0312" />
+                        <joint name="elbow" type="hinge" axis="0 0 1" limited="true" range="-3.14159 3.14159" />
+                        <geom name="forearm" type="capsule" size="0.04" fromto="0 0 0 0 0 0.392" material="robot_material" />
+                        
+                        <body name="wrist_1" pos="0 0 0.392">
+                            <inertial pos="0 0 0" mass="1.219" diaginertia="0.0053 0.0053 0.0053" />
+                            <joint name="wrist_1" type="hinge" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+                            <geom name="wrist_1" type="capsule" size="0.04" fromto="0 0 0 0 0.127 0" material="robot_material" />
+                            
+                            <body name="wrist_2" pos="0 0.127 0">
+                                <inertial pos="0 0 0" mass="1.219" diaginertia="0.0053 0.0053 0.0053" />
+                                <joint name="wrist_2" type="hinge" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+                                <geom name="wrist_2" type="capsule" size="0.04" fromto="0 0 0 0 0 0.1" material="robot_material" />
+                                
+                                <body name="wrist_3" pos="0 0 0.1">
+                                    <inertial pos="0 0 0" mass="0.1879" diaginertia="0.0340 0.0340 0.0340" />
+                                    <joint name="wrist_3" type="hinge" axis="0 0 1" limited="true" range="-6.28319 6.28319" />
+                                    <geom name="wrist_3" type="cylinder" size="0.04 0.02" material="robot_material" />
+                                    
+                                    <!-- End effector site -->
+                                    <site name="ee_site" pos="0 0 0.05" size="0.01" />
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <actuator>
+        <motor joint="shoulder_pan" name="shoulder_pan_motor" gear="100" />
+        <motor joint="shoulder_lift" name="shoulder_lift_motor" gear="100" />
+        <motor joint="elbow" name="elbow_motor" gear="100" />
+        <motor joint="wrist_1" name="wrist_1_motor" gear="100" />
+        <motor joint="wrist_2" name="wrist_2_motor" gear="100" />
+        <motor joint="wrist_3" name="wrist_3_motor" gear="100" />
+    </actuator>
+</mujoco>
